@@ -60,40 +60,80 @@ describe("First test suite", () => {
   //     .click();
   // });
 
-  it("save subject of the command", () => {
+  // it("save subject of the command", () => {
+  //   cy.visit("/");
+  //   cy.contains("Forms").click();
+  //   cy.contains("Form Layouts").click();
+
+  //   // cy.contains("nb-card", "Using the Grid")
+  //   //   .find('[for="inputEmail1"]')
+  //   //   .should("contain", "Email");
+  //   // cy.contains("nb-card", "Using the Grid")
+  //   //   .find('[for="inputPassword2"]')
+  //   //   .should("contain", "Password");
+
+  //   // não é possivel fazer coisas assim, ele trabalha de forma assincrona
+  //   // const usingTheGrid = cy.contains("nb-card", "Using the Grid");
+  //   // usingTheGrid.find('[for="inputEmail1"]').should("contain", "Email");
+  //   // usingTheGrid.find('[for="inputPassword2"]').should("contain", "Password");
+
+  //   // 1 Cypress Alias
+  //   cy.contains("nb-card", "Using the Grid").as("usingTheGrid");
+  //   cy.get("@usingTheGrid")
+  //     .find('[for="inputEmail1"]')
+  //     .should("contain", "Email");
+  //   cy.get("@usingTheGrid")
+  //     .find('[for="inputPassword2"]')
+  //     .should("contain", "Password");
+
+  //   //2 Cypress then() method
+  //   cy.contains("nb-card", "Using the Grid").then((usingTheGrid) => {
+  //     cy.wrap(usingTheGrid)
+  //       .find('[for="inputEmail1"]')
+  //       .should("contain", "Email");
+  //     cy.wrap(usingTheGrid)
+  //       .find('[for="inputPassword2"]')
+  //       .should("contain", "Password");
+  //   });
+  // });
+
+  it.only("save subject of the command", () => {
     cy.visit("/");
     cy.contains("Forms").click();
     cy.contains("Form Layouts").click();
 
-    // cy.contains("nb-card", "Using the Grid")
-    //   .find('[for="inputEmail1"]')
-    //   .should("contain", "Email");
-    // cy.contains("nb-card", "Using the Grid")
-    //   .find('[for="inputPassword2"]')
-    //   .should("contain", "Password");
+    //1
+    cy.get('[for="exampleInputEmail1"').should("contain", "Email address");
 
-    // não é possivel fazer coisas assim, ele trabalha de forma assincrona
-    // const usingTheGrid = cy.contains("nb-card", "Using the Grid");
-    // usingTheGrid.find('[for="inputEmail1"]').should("contain", "Email");
-    // usingTheGrid.find('[for="inputPassword2"]').should("contain", "Password");
-
-    // 1 Cypress Alias
-    cy.contains("nb-card", "Using the Grid").as("usingTheGrid");
-    cy.get("@usingTheGrid")
-      .find('[for="inputEmail1"]')
-      .should("contain", "Email");
-    cy.get("@usingTheGrid")
-      .find('[for="inputPassword2"]')
-      .should("contain", "Password");
-
-    //2 Cypress then() method
-    cy.contains("nb-card", "Using the Grid").then((usingTheGrid) => {
-      cy.wrap(usingTheGrid)
-        .find('[for="inputEmail1"]')
-        .should("contain", "Email");
-      cy.wrap(usingTheGrid)
-        .find('[for="inputPassword2"]')
-        .should("contain", "Password");
+    //2
+    cy.get('[for="exampleInputEmail1"').then((label) => {
+      const labelText = label.text();
+      expect(labelText).to.equal("Email address");
+      cy.wrap(labelText).should("contain", "Email address");
     });
+
+    //3
+    cy.get('[for="exampleInputEmail1"')
+      .invoke("text")
+      .then((text) => {
+        expect(text).to.equal("Email address");
+      });
+    cy.get('[for="exampleInputEmail1"').invoke("text").as("labelText").should;
+
+    //4 verificar se o input tem a classe 'label'
+    cy.get('[for="exampleInputEmail1"')
+      .invoke("attr", "class")
+      .then((classValue) => {
+        expect(classValue).to.equal("label");
+      });
+
+    //5 invocar propriedades do elemento
+    cy.get("#exampleInputEmail1").type("test@test.com");
+    cy.get("#exampleInputEmail1")
+      .invoke("prop", "value")
+      .should("contain", "test@test.com")
+      .then((property) => {
+        expect(property).to.equal("test@test.com");
+      });
   });
 });
